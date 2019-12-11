@@ -29,11 +29,29 @@ function App() {
 
   function numPressed(numberValue) {
     if(isNum1) {
-      setNum1(num1 + numberValue);
-      setTotal(num1 + numberValue); //When we call this function it refernces the value of num1
-    } else {                        //It doesn't refernce it again, so we have to add the numberValue again
-      setNum2(num2 + numberValue);  //while inside the function.
-      setTotal(num2 + numberValue);
+      if (num1 === '0' && numberValue === '0') {
+        //do nothing
+      } else if (num1 === '0') {
+        setNum1(numberValue);
+        setTotal(numberValue);
+      } else if (numberValue === '.' && num1.includes('.')) {
+        //do nothing
+      } else {
+        setNum1(num1 + numberValue);  //When we call this function it refernces the value of num1
+        setTotal(num1 + numberValue); //It doesn't refernce it again, so we have to add the numberValue again
+      }                               //while inside the function.
+    } else {                        
+      if (num2 === '0' && numberValue === '0') {
+        //do nothing
+      } else if (num2 === '0') {
+        setNum1(numberValue);
+        setTotal(numberValue);
+      } else if (numberValue === '.' && num2.includes('.')) {
+        //do nothing
+      } else {
+        setNum1(num2 + numberValue);  //When we call this function it refernces the value of num2
+        setTotal(num2 + numberValue); //It doesn't refernce it again, so we have to add the numberValue again
+      }                               //while inside the function.
     }
   }
 
