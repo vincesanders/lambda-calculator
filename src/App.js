@@ -83,18 +83,16 @@ function App() {
       setIsNum1(true);
       setOperation(null);
     } else if (specialValue === '%') {
-      // if (isNum1) {
-      //   if (num1.includes('.')) {
-      //     let index = num1.indexOf('.');
-      //     let strArr = num1.split('.');
-      //     if (index )
-      //     setNum1(num1.substr(0, index))
-      //   } else {
-      //     setNum1(num1.substr(0, num1.length - 3) + '.' + num1.substr(num1.length - 3));
-      //   }
-      // } else {
-      //   setNum2(num2.substr(0, num2.length - 3) + '.' + num2.substr(num2.length - 3));
-      // }
+      let newNumber;
+      if (isNum1) {
+        newNumber = setPercentageNumber(num1)
+        setNum1(newNumber);
+        setTotal(newNumber === '' ? '0' : newNumber);
+      } else {
+        newNumber = setPercentageNumber(num2)
+        setNum2(newNumber);
+        setTotal(newNumber);
+      }
     } else {
       if (isNum1) {
         if (num1.charAt(0) === '-') {
@@ -112,6 +110,30 @@ function App() {
           setNum2('-' + num2);
           setTotal('-' + num2);
         }
+      }
+    }
+  }
+
+  function setPercentageNumber(num) {
+    if (num.includes('.')) {
+      let index = num.indexOf('.');
+      let strArr = num.split('.');
+      if (index === 1) { //if index is at 1
+        return '0.0' + strArr[0] + strArr[1];
+      } else if (index === 2) { //if index is at 2
+        return '0.' + strArr[0] + strArr[1];
+      } else {
+        return strArr[0].substr(0, index - 2) + '.' + strArr[0].substr(index - 2) + strArr[1];
+      }
+    } else {
+      if (num === '0' || num === '') {
+        return '';//do nothing
+      } else if (num.length === 1) {
+        return '0.0' + num;
+      } else if (num.length === 2) {
+        return '0.' + num;
+      } else {
+        return num.substr(0, num.length - 2) + '.' + num.substr(num.length - 2);
       }
     }
   }
