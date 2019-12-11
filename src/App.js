@@ -20,33 +20,39 @@ function App() {
   const [num1, setNum1] = useState('');
   const [num2, setNum2] = useState('');
   const [isNum1, setIsNum1] = useState(true);
+  const operatorFunctions = {
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
+    '*': (a, b) => a * b,
+    '/': (a, b) => a / b,
+  }
 
   function numPressed(numberValue) {
     if(isNum1) {
       setNum1(num1 + numberValue);
-      setTotal(num1 + numberValue);
-    } else {
-      setNum2(num2 + numberValue);
+      setTotal(num1 + numberValue); //When we call this function it refernces the value of num1
+    } else {                        //It doesn't refernce it again, so we have to add the numberValue again
+      setNum2(num2 + numberValue);  //while inside the function.
       setTotal(num2 + numberValue);
     }
   }
 
-  function operatorPressed(e) {
-    if (e.target.value === '=') {
-      setTotal(Number(num1) + operation + Number(num2));
+  function operatorPressed(operatorValue) {
+    if (operatorValue === '=') {
+      setTotal(operatorFunctions[operation](Number(num1), Number(num2)));
       setNum1('')
       setNum2('')
       setIsNum1(true);
       setOperation(null);
     } else {
       if (operation === null) {
-        setOperation(e.target.value);
+        setOperation(operatorValue);
         setIsNum1(false);
       } else {
-        setTotal(Number(num1) + operation + Number(num2));
-        setNum1(Number(num1) + operation + Number(num2));
+        setTotal(operatorFunctions[operation](Number(num1), Number(num2))); 
+        setNum1(operatorFunctions[operation](Number(num1), Number(num2)));
         setNum2('')
-        setOperation(e.target.value);
+        setOperation(operatorValue);
       }
     }
   }
@@ -99,7 +105,7 @@ function App() {
             <Specials />
             <Numbers numPressed={numPressed}/>
           </div>
-          <Operators />
+          <Operators operatorPressed={operatorPressed}/>
         </div>
       </div>
     </div>
