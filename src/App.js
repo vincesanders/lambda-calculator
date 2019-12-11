@@ -15,19 +15,19 @@ function App() {
   // Your functions should accept a parameter of the the item data being displayed to the DOM (ie - should recieve 5 if the user clicks on
   // the "5" button, or the operator if they click one of those buttons) and then call your setter function to update state.
   // Don't forget to pass the functions (and any additional data needed) to the components as props
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState('0');
   const [operation, setOperation] = useState(null);
   const [num1, setNum1] = useState('');
   const [num2, setNum2] = useState('');
   const [isNum1, setIsNum1] = useState(true);
 
-  function numPressed(e) {
+  function numPressed(numberValue) {
     if(isNum1) {
-      setNum1(num1 + e.target.value);
-      setTotal(num1);
+      setNum1(num1 + numberValue);
+      setTotal(num1 + numberValue);
     } else {
-      setNum2(num2 + e.target.value);
-      setTotal(num2);
+      setNum2(num2 + numberValue);
+      setTotal(num2 + numberValue);
     }
   }
 
@@ -97,7 +97,7 @@ function App() {
         <div className="button-container">
           <div className='button-column-1'>
             <Specials />
-            <Numbers />
+            <Numbers numPressed={numPressed}/>
           </div>
           <Operators />
         </div>
