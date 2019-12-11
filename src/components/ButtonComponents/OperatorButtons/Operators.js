@@ -14,7 +14,7 @@ export default function Operators(props) {
        component matching the name on the provided file. Pass
        it any props needed by the child component*/}
       {operatorButtons.map((op, i) => {
-        return <OperatorButton operator={op.char} key={i} operatorPressed={props.operatorPressed}/>
+        return <OperatorButton value={op.value} operator={op.char} key={i} operatorPressed={props.operatorPressed}/>
       })}
     </div>
   );

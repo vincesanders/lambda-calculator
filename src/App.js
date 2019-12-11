@@ -24,7 +24,7 @@ function App() {
     '+': (a, b) => a + b,
     '-': (a, b) => a - b,
     '*': (a, b) => a * b,
-    '/': (a, b) => a / b,
+    '/': (a, b) => a / b
   }
 
   function numPressed(numberValue) {
@@ -44,12 +44,12 @@ function App() {
       if (num2 === '0' && numberValue === '0') {
         //do nothing
       } else if (num2 === '0') {
-        setNum1(numberValue);
+        setNum2(numberValue);
         setTotal(numberValue);
       } else if (numberValue === '.' && num2.includes('.')) {
         //do nothing
       } else {
-        setNum1(num2 + numberValue);  //When we call this function it refernces the value of num2
+        setNum2(num2 + numberValue);  //When we call this function it refernces the value of num2
         setTotal(num2 + numberValue); //It doesn't refernce it again, so we have to add the numberValue again
       }                               //while inside the function.
     }
@@ -75,14 +75,14 @@ function App() {
     }
   }
 
-  function specialPressed(e) {
-    if (e.target.value === 'C') {
-      setTotal(0);
+  function specialPressed(specialValue) {
+    if (specialValue === 'C') {
+      setTotal('0');
       setNum1('')
       setNum2('')
       setIsNum1(true);
       setOperation(null);
-    } else if (e.target.value === '%') {
+    } else if (specialValue === '%') {
       // if (isNum1) {
       //   if (num1.includes('.')) {
       //     let index = num1.indexOf('.');
@@ -97,16 +97,20 @@ function App() {
       // }
     } else {
       if (isNum1) {
-        if (num1.indexOf(0) === '-') {
+        if (num1.charAt(0) === '-') {
           setNum1(num1.substr(1));
+          setTotal(num1.substr(1));
         } else {
           setNum1('-' + num1);
+          setTotal('-' + num1);
         }
       } else {
-        if (num2.indexOf(0) === '-') {
+        if (num2.charAt(0) === '-') {
           setNum2(num2.substr(1));
+          setTotal(num2.substr(1));
         } else {
           setNum2('-' + num2);
+          setTotal('-' + num2);
         }
       }
     }
@@ -120,7 +124,7 @@ function App() {
         <Display numDisplayed={total}/>
         <div className="button-container">
           <div className='button-column-1'>
-            <Specials />
+            <Specials specialPressed={specialPressed}/>
             <Numbers numPressed={numPressed}/>
           </div>
           <Operators operatorPressed={operatorPressed}/>
