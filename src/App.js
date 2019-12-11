@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 // STEP 4 - import the button and display components
 // Don't forget to import any extra css/scss files you build into the correct component
@@ -15,13 +15,85 @@ function App() {
   // Your functions should accept a parameter of the the item data being displayed to the DOM (ie - should recieve 5 if the user clicks on
   // the "5" button, or the operator if they click one of those buttons) and then call your setter function to update state.
   // Don't forget to pass the functions (and any additional data needed) to the components as props
+  const [total, setTotal] = useState(0);
+  const [operation, setOperation] = useState(null);
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [isNum1, setIsNum1] = useState(true);
+
+  function numPressed(e) {
+    if(isNum1) {
+      setNum1(num1 + e.target.value);
+      setTotal(num1);
+    } else {
+      setNum2(num2 + e.target.value);
+      setTotal(num2);
+    }
+  }
+
+  function operatorPressed(e) {
+    if (e.target.value === '=') {
+      setTotal(Number(num1) + operation + Number(num2));
+      setNum1('')
+      setNum2('')
+      setIsNum1(true);
+      setOperation(null);
+    } else {
+      if (operation === null) {
+        setOperation(e.target.value);
+        setIsNum1(false);
+      } else {
+        setTotal(Number(num1) + operation + Number(num2));
+        setNum1(Number(num1) + operation + Number(num2));
+        setNum2('')
+        setOperation(e.target.value);
+      }
+    }
+  }
+
+  function specialPressed(e) {
+    if (e.target.value === 'C') {
+      setTotal(0);
+      setNum1('')
+      setNum2('')
+      setIsNum1(true);
+      setOperation(null);
+    } else if (e.target.value === '%') {
+      // if (isNum1) {
+      //   if (num1.includes('.')) {
+      //     let index = num1.indexOf('.');
+      //     let strArr = num1.split('.');
+      //     if (index )
+      //     setNum1(num1.substr(0, index))
+      //   } else {
+      //     setNum1(num1.substr(0, num1.length - 3) + '.' + num1.substr(num1.length - 3));
+      //   }
+      // } else {
+      //   setNum2(num2.substr(0, num2.length - 3) + '.' + num2.substr(num2.length - 3));
+      // }
+    } else {
+      if (isNum1) {
+        if (num1.indexOf(0) === '-') {
+          setNum1(num1.substr(1));
+        } else {
+          setNum1('-' + num1);
+        }
+      } else {
+        if (num2.indexOf(0) === '-') {
+          setNum2(num2.substr(1));
+        } else {
+          setNum2('-' + num2);
+        }
+      }
+    }
+  }
 
   return (
     <div className="container">
       <Logo />
       <div className="App">
         {/* STEP 4 - Render your components here and be sure to properly import/export all files */}
-        <Display />
+        <Display numDisplayed={total}/>
         <div className="button-container">
           <div className='button-column-1'>
             <Specials />
